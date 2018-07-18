@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:p="http://www.springframework.org/schema/p" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="  
+http://www.springframework.org/schema/beans 
+http://www.springframework.org/schema/beans/spring-beans-4.1.xsd 
+http://www.springframework.org/schema/context 
+http://www.springframework.org/schema/context/spring-context-4.1.xsd 
+http://www.springframework.org/schema/aop 
+http://www.springframework.org/schema/aop/spring-aop-4.1.xsd 
+http://www.springframework.org/schema/tx 
+http://www.springframework.org/schema/tx/spring-tx-4.1.xsd
+http://www.springframework.org/schema/mvc
+http://www.springframework.org/schema/mvc/spring-mvc-4.1.xsd">
+
+	<description>Spring-web MVC配置</description>
+	
+	<!-- MVC负责扫描Controller -->
+	<context:component-scan base-package="pers.kanarien.chatroom.web.controller"/>
+	
+    <!-- 视图解释类 -->
+    <bean name="viewResolver"
+        class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+        <property name="prefix" value="/WEB-INF/views/" />
+        <property name="suffix" value=".html" />
+        <property name="order" value="0" />
+    </bean>
+
+    <!-- 设置不拦截静态文件 -->
+    <mvc:resources location="/WEB-INF/views/" mapping="/WEB-INF/views/**" />
+    <mvc:resources location="/static/" mapping="/static/**/**" />
+    <mvc:resources location="/UploadFile/" mapping="/UploadFile/**" />
+
+    <!-- 使用缓存mvc注解配置 -->
+    <mvc:annotation-driven>
+        <!-- 配置StringHttpMessageConverter当@ResponseBody 时中文正常显示 -->
+        <mvc:message-converters>
+            <bean class="org.springframework.http.converter.StringHttpMessageConverter">
+                <property name="supportedMediaTypes">
+                    <list>
+                        <value>application/json;charset=UTF-8</value>
+                    </list>
+                </property>
+            </bean>
+        </mvc:message-converters>
+    </mvc:annotation-driven>
+    <!-- 启用@ControllerAdvice注解 -->
+	<bean
+        class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping">
+    </bean>
+    <bean
+        class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerAdapter">
+        <property name="messageConverters">
+            <list>
+                <bean
+                    class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter" />
+            </list>
+        </property>
+    </bean>
+    
+    <!-- 用户认证拦截器 -->
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/chatroom/**" />
+            <bean class="pers.kanarien.chatroom.web.interceptor.UserAuthInteceptor" />
+        </mvc:interceptor>
+    </mvc:interceptors>
+	
+	<!-- 配置文件上传 -->
+    <bean id="multipartResolver"
+        class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <property name="defaultEncoding" value="UTF-8"></property>
+        <property name="maxUploadSize" value="10485760"></property>
+        <property name="maxInMemorySize" value="40960"></property>
+    </bean>
+</beans>

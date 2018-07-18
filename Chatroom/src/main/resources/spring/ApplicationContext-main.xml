@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+    
+           
+ 	<!-- 注册 @Component，@Service，@Reposity到Spring容器，同时扫描 @PostConstruct，@PreDestroy -->
+ 	<context:component-scan base-package="pers.kanarien.chatroom.common"/>
+ 	<context:component-scan base-package="pers.kanarien.chatroom.dao"/>
+ 	<context:component-scan base-package="pers.kanarien.chatroom.service"/>  
+	
+	<bean id="configProperties"
+		class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+		<property name="locations">
+			<list>
+				<value>classpath:system.properties</value>
+			</list>
+		</property>
+	</bean>
+	
+   <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PreferencesPlaceholderConfigurer">
+        <property name="properties" ref="configProperties" />
+   </bean> 
+     
+
+     
+     
+     
+     
+     
+</beans>

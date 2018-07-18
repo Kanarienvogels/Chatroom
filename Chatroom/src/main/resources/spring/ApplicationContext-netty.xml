@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:cache="http://www.springframework.org/schema/cache"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans   
+        http://www.springframework.org/schema/beans/spring-beans-4.1.xsd  
+        http://www.springframework.org/schema/context   
+        http://www.springframework.org/schema/context/spring-context-4.1.xsd">
+
+    <!-- 扫描关于Netty Websocket的包 -->
+    <context:component-scan base-package="pers.kanarien.chatroom.web.websocket"/>  
+    
+    <!-- 把Netty的一些类服务器注册到Spring，方便处理和扩展 -->
+    <!-- 用于处理客户端连接请求 -->
+	<bean id="bossGroup" class="io.netty.channel.nio.NioEventLoopGroup"/>
+	<!-- 用于处理客户端I/O操作 -->
+	<bean id="workerGroup" class="io.netty.channel.nio.NioEventLoopGroup"/>
+	<!-- 服务器启动引导类 -->
+	<bean id="serverBootstrap" class="io.netty.bootstrap.ServerBootstrap" scope="prototype"/>
+	<!-- 自定义的Netty Websocket服务器 -->
+	<bean id="webSocketServer" class="pers.kanarien.chatroom.web.websocket.WebSocketServer">
+		<property name="port" value="${websocket.server.port}"/>
+		<property name="childChannelHandler" ref="webSocketChildChannelHandler" />
+	</bean>
+</beans>
