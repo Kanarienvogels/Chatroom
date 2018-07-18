@@ -1,4 +1,6 @@
-Git is a distributed version control system.
-Git is free software distributed under the GPL.
-Git has a mutable index called stage.
-Creating a new branch is quick and simple.
+无悔(Kanarien)的代码仓库(〃'▽'〃)
+============================================================================
+主要存放一些放在github上的开源项目
+欢迎大家来讨论(*^▽^*)
+============================================================================
+     Copyright © 2018, GDUT CSCW back-end Kanarien, All Rights Reserved
