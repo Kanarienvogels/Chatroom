@@ -1,4 +1,4 @@
-开源的互联网聊天系统
+# 开源的互联网聊天系统 (Spring + Netty + Websocket)
 
 ## 0. 前言
 最近一段时间在学习Netty网络框架，又趁着计算机网络的课程设计，决定以Netty为核心，以WebSocket为应用层通信协议做一个互联网聊天系统，整体而言就像微信网页版一样，但考虑到这个聊天系统的功能非常多，因此只打算实现核心的聊天功能，包括单发、群发、文件发送，然后把项目与Spring整合做成开源、可拓展的方式，给大家参考、讨论、使用，欢迎大家的指点。
@@ -6,13 +6,14 @@
 关于Netty
 > Netty 是一个利用 Java 的高级网络的能力，隐藏其背后的复杂性而提供一个易于使用的 API 的客户端/服务器框架。
 
-这里借用《Essential Netty In Action》的一句话来简单介绍Netty，详细的可参考阅读该书的电子版
+详细的可参考阅读该书的电子版
 * [Essential Netty in Action 《Netty 实战(精髓)》](https://legacy.gitbook.com/book/waylau/essential-netty-in-action/details)
 
 关于WebSocket通信协议
-简单说一下WebSocket通信协议，WebSocket是为了解决HTTP协议中通信只能由客户端发起这个弊端而出现的，WebSocket基于HTTP5协议，借用HTTP进行握手、升级，能够做到轻量的、高效的、双向的在客户端和服务端之间传输文本数据。
+> WebSocket是为了解决HTTP协议中通信只能由客户端发起这个弊端而出现的，WebSocket基于HTTP5协议，借用HTTP进行握手、升级，能够做到轻量的、高效的、双向的在客户端和服务端之间传输文本数据。
 
 ## 1. 技术准备
+* IDE：MyEclipse 2016
 * JDK版本：1.8.0_121
 * 浏览器：谷歌浏览器、360浏览器（极速模式）（涉及网页前端设计，后端开发表示很苦闷）
 * 涉及技术：
@@ -67,7 +68,7 @@
 
 ### 3.1 Netty服务器启动与关闭
 不得不说的是，当关闭Tomcat服务器时，也要释放Netty相关资源，否则会造成内存泄漏，关闭方法如下面的``close()``，如果只是使用``shutdownGracefully()``方法的话，关闭时会报内存泄露Memory Leak异常（但IDE可能来不及输出到控制台）
-```
+```Java
 /**
  * 描述: Netty WebSocket服务器
  *      使用独立的线程启动
@@ -136,7 +137,7 @@ public class WebSocketServer implements Runnable{
 当前系统用户固定为9个，群组1个，包括9人用户。
 * 用户1  用户名：Member001  密码：001
 * 用户2  用户名：Member002  密码：002
-······
+* ······
 * 用户9  用户名：Member009  密码：009
 
 ![登录入口](http://kanarien-1254133416.cosgz.myqcloud.com/Image%20Bed/%E8%81%8A%E5%A4%A9%E5%AE%A4%E7%99%BB%E5%BD%95url.png)
