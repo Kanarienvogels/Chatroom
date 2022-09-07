@@ -46,6 +46,7 @@ http://www.springframework.org/schema/mvc/spring-mvc-4.1.xsd">
             </bean>
         </mvc:message-converters>
     </mvc:annotation-driven>
+
     <!-- 启用@ControllerAdvice注解 -->
 	<bean
         class="org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping">
@@ -72,7 +73,9 @@ http://www.springframework.org/schema/mvc/spring-mvc-4.1.xsd">
     <bean id="multipartResolver"
         class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
         <property name="defaultEncoding" value="UTF-8"></property>
+<!--        maximum upload size for a single request. That means the total size of all upload files cannot exceed this configured maximum.-->
         <property name="maxUploadSize" value="10485760"></property>
+<!--        files with size below this value are stored in memory, otherwise they will be stored in disk directly.-->
         <property name="maxInMemorySize" value="40960"></property>
     </bean>
 </beans>

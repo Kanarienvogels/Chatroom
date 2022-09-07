@@ -25,14 +25,14 @@ public class Constant {
     public static final String USER_TOKEN = "userId";
     
     public static Map<String, WebSocketServerHandshaker> webSocketHandshakerMap = 
-            new ConcurrentHashMap<String, WebSocketServerHandshaker>();
+            new ConcurrentHashMap<>();
     
 	public static Map<String, ChannelHandlerContext> onlineUserMap = 
-	        new ConcurrentHashMap<String, ChannelHandlerContext>();
+	        new ConcurrentHashMap<>();
 
 	public static Map<String, GroupInfo> groupInfoMap = 
-	        new ConcurrentHashMap<String, GroupInfo>();
+	        new ConcurrentHashMap<>();
 	
 	public static Map<String, UserInfo> userInfoMap = 
-	        new HashMap<String, UserInfo>();
+	        new HashMap<>();
 }

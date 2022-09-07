@@ -6,6 +6,11 @@ import org.springframework.http.HttpStatus;
 
 import com.alibaba.fastjson.JSONObject;
 
+/**
+ * status
+ * msg
+ * data(HashMap)
+ */
 public class ResponseJson extends HashMap<String, Object> {
     private static final long serialVersionUID = 1L;
 
@@ -47,7 +52,6 @@ public class ResponseJson extends HashMap<String, Object> {
     }
 
     public ResponseJson setData(String key, Object obj) {
-        @SuppressWarnings("unchecked")
         HashMap<String, Object> data = (HashMap<String, Object>) get("data");
         if (data == null) {
             data = new HashMap<String, Object>();

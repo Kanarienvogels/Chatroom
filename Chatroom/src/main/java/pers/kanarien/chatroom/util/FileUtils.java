@@ -23,7 +23,7 @@ import java.util.HashMap;
  */
 public class FileUtils {
 
-    private static final HashMap<String,String> fileTypes = new HashMap<String,String>(); 
+    private static final HashMap<String, String> fileTypes = new HashMap<>();
     static { // BOM（Byte Order Mark）文件头字节
         fileTypes.put("494433", "mp3");
         fileTypes.put("524946", "wav");
@@ -37,8 +37,11 @@ public class FileUtils {
     private static final String KB_UNIT = "KB";
     private static final String MB_UNIT = "MB";
     private static final String GB_UNIT = "GB";
+
+    /**
+     * 0 和 # 都是占位符，但是 0 可能会用0前导补齐（下面的代码能实现保留一位小数的作用）
+     */
     private static final DecimalFormat decimalFormat = new DecimalFormat("#.0");
-    
 
     
     /**
@@ -55,7 +58,7 @@ public class FileUtils {
 
     /**
      * <p>
-     *    描述：获取文件头前3个字节
+     *    描述：获取文件头前3个字节的十六进制表示
      * </p>
      * @param filePath 文件路径
      * @return
@@ -63,34 +66,29 @@ public class FileUtils {
     private static String getFileHeader3(String filePath) {
         
       File file=new File(filePath);
-        if(!file.exists() || file.length()<4){
+        // 前三个字节只是头部标识，并非内容
+        if(!file.exists() || file.length() < 4){
             return "null";
         }
-        FileInputStream is = null;
         String value = null;
-        try {
-            is = new FileInputStream(file);
+        try (FileInputStream is = new FileInputStream(file)) {
             byte[] b = new byte[3];
             is.read(b, 0, b.length);
             value = bytesToHexString(b);
         } catch (Exception e) {
-        } finally {
-            if(null != is) {
-                try {
-                    is.close();
-                } catch (IOException e) {}
-            }
+            e.printStackTrace();
         }
+
         return value;
     }
     
     private static String bytesToHexString(byte[] src){
-        StringBuilder stringBuilder = new StringBuilder();
         if (src == null || src.length <= 0) {
             return null;
         }
-        for (int i = 0; i < src.length; i++) {
-            int v = src[i] & 0xFF;
+        StringBuilder stringBuilder = new StringBuilder();
+        for (byte value : src) {
+            int v = value & 0xFF;
             String hv = Integer.toHexString(v);
             if (hv.length() < 2) {
                 stringBuilder.append(0);
@@ -130,41 +128,27 @@ public class FileUtils {
      * <p>
      *    描述：高效率的将文件转换成字节数组
      * </p>
-     * @param filename
+     * @param filePath
      * @return
      * @throws IOException
      */
-    @SuppressWarnings("resource")
-    public static byte[] toByteArray(String filePath) throws IOException {  
+//    remove the warning for a potential resource leak.
+//    @SuppressWarnings("resource")
+    public static byte[] toByteArray(String filePath) throws IOException {
         
-        FileChannel fc = null;  
-        try {  
-            fc = new RandomAccessFile(filePath, "r").getChannel();  
-            MappedByteBuffer byteBuffer = fc.map(MapMode.READ_ONLY, 0,  
-                    fc.size()).load();  
-            System.out.println(byteBuffer.isLoaded());  
-            byte[] result = new byte[(int) fc.size()];  
-            if (byteBuffer.remaining() > 0) {  
-                byteBuffer.get(result, 0, byteBuffer.remaining());  
-            }  
-            return result;  
-        } catch (IOException e) {  
-            e.printStackTrace();  
-            throw e;  
-        } finally {  
-            try {  
-                fc.close();  
-            } catch (IOException e) {  
-                e.printStackTrace();  
-            }  
-        }  
-    }  
-    
-    public static void main(String args[]){
-        String filePath = "E:\\CloudMusic\\Famishin - 恋ひ恋ふ縁＜Piano Version＞.mp3";
-        String fileType = FileUtils.getFileType(filePath);
-        System.out.println(fileType);
+        try (FileChannel fc = new RandomAccessFile(filePath, "r").getChannel()) {
+            MappedByteBuffer byteBuffer = fc.map(MapMode.READ_ONLY, 0,
+                    fc.size()).load();
+            System.out.println(byteBuffer.isLoaded());
+            byte[] result = new byte[(int)fc.size()];
+            if (byteBuffer.remaining() > 0) {
+                byteBuffer.get(result, 0, byteBuffer.remaining());
+            }
+            return result;
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw e;
+        }
     }
-
 
 }

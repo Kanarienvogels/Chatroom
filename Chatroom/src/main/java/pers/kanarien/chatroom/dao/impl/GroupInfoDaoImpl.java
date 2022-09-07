@@ -24,7 +24,7 @@ public class GroupInfoDaoImpl implements GroupInfoDao{
         UserInfo userInfo7 = new UserInfo("007", "Member007", "007", "static/img/avatar/Member007.jpg");
         UserInfo userInfo8 = new UserInfo("008", "Member008", "008", "static/img/avatar/Member008.jpg");
         UserInfo userInfo9 = new UserInfo("009", "Member009", "009", "static/img/avatar/Member009.jpg");
-        List<UserInfo> members = new ArrayList<UserInfo>();
+        List<UserInfo> members = new ArrayList<>();
         members.add(userInfo);
         members.add(userInfo2);
         members.add(userInfo3);

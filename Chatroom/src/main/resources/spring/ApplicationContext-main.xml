@@ -8,11 +8,14 @@
            http://www.springframework.org/schema/context/spring-context-3.0.xsd">
     
            
- 	<!-- 注册 @Component，@Service，@Reposity到Spring容器，同时扫描 @PostConstruct，@PreDestroy -->
+ 	<!-- 注册 @Component，@Service，@Repository 到 Spring 容器，同时扫描 @PostConstruct，@PreDestroy -->
  	<context:component-scan base-package="pers.kanarien.chatroom.common"/>
  	<context:component-scan base-package="pers.kanarien.chatroom.dao"/>
  	<context:component-scan base-package="pers.kanarien.chatroom.service"/>  
-	
+
+<!--	Spring 注入 properties 属性文件(https://blog.csdn.net/wxd_1024/article/details/80106815)-->
+
+<!--	为 PropertiesFactoryBean(PropertiesLoaderSupport) 的 locations 属性赋值-->
 	<bean id="configProperties"
 		class="org.springframework.beans.factory.config.PropertiesFactoryBean">
 		<property name="locations">
@@ -25,11 +28,5 @@
    <bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PreferencesPlaceholderConfigurer">
         <property name="properties" ref="configProperties" />
    </bean> 
-     
 
-     
-     
-     
-     
-     
 </beans>
