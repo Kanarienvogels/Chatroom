@@ -24,7 +24,7 @@ public class AppContext {
     @Autowired
     private UserInfoDao userInfoDao;
     @Autowired
-    private GroupInfoDao groupDao;
+    private GroupInfoDao groupInfoDao;
     
     private Thread nettyThread;
     
@@ -42,7 +42,7 @@ public class AppContext {
         logger.info("加载用户数据...");
         userInfoDao.loadUserInfo();
         logger.info("加载用户交流群数据...");
-        groupDao.loadGroupInfo();
+        groupInfoDao.loadGroupInfo();
     }
 
     /**

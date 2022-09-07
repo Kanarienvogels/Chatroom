@@ -8,5 +8,11 @@ import pers.kanarien.chatroom.model.vo.ResponseJson;
 
 public interface FileUploadService {
 
+    /**
+     * 上传文件
+     * @param file
+     * @param request
+     * @return
+     */
     ResponseJson upload(MultipartFile file, HttpServletRequest request);
 }

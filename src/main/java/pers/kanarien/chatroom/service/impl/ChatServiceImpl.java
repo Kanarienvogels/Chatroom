@@ -46,6 +46,7 @@ public class ChatServiceImpl implements ChatService{
         String toUserId = (String)param.get("toUserId");
         String content = (String)param.get("content");
         ChannelHandlerContext toUserCtx = Constant.onlineUserMap.get(toUserId);
+        // 对方不在线不支持发送消息
         if (toUserCtx == null) {
             String responseJson = new ResponseJson()
                     .error(MessageFormat.format("userId为 {0} 的用户没有登录！", toUserId))
@@ -67,20 +68,7 @@ public class ChatServiceImpl implements ChatService{
         String fromUserId = (String)param.get("fromUserId");
         String toGroupId = (String)param.get("toGroupId");
         String content = (String)param.get("content");
-        
-        /*String userId = (String)param.get("userId");
-        String fromUsername = (String)param.get("fromUsername");*/
-        /*String responseJson = new ResponseJson().success()
-                .setData("fromUsername", fromUsername)
-                .setData("content", content)
-                .setData("type", ChatType.GROUP_SENDING)
-                .toString();*/
-        /*Set<Entry<String, ChannelHandlerContext>> userCtxs = Constant.onlineUserMap.entrySet();
-        for (Entry<String, ChannelHandlerContext> userCtx : userCtxs) {
-            if (!userCtx.getKey().equals(userId)) {
-                sendMessage(userCtx.getValue(), responseJson);
-            }
-        }*/
+
         GroupInfo groupInfo = groupDao.getByGroupId(toGroupId);
         if (groupInfo == null) {
             String responseJson = new ResponseJson().error("该群id不存在").toString();
