@@ -1,5 +1,6 @@
 package pers.kanarien.chatroom.service.impl;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -25,16 +26,18 @@ public class FileUploadServiceImpl implements FileUploadService{
     public ResponseJson upload(MultipartFile file, HttpServletRequest request) {
         // 重命名文件，防止重名
         String filename = getRandomUUID();
-        String suffix = "";
         String originalFilename = file.getOriginalFilename();
         String fileSize = FileUtils.getFormatSize(file.getSize());
+        String suffix = "";
         // 截取文件的后缀名
         if (originalFilename.contains(".")) {
             suffix = originalFilename.substring(originalFilename.lastIndexOf("."));
         }
         filename = filename + suffix;
         String prefix = request.getSession().getServletContext().getRealPath("/") + FILE_STORE_PATH;
+
         System.out.println("存储路径为:" + prefix + "\\" + filename);
+        new File(prefix).mkdir();
         Path filePath = Paths.get(prefix, filename);
         try {
             Files.copy(file.getInputStream(), filePath);
