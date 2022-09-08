@@ -68,7 +68,7 @@ public class WebSocketServerHandler extends SimpleChannelInboundHandler<WebSocke
             sendErrorMessage(ctx, "仅支持文本(Text)格式，不支持二进制消息");
         }
 
-        // 客服端发送过来的消息
+        // 客户端发送过来的消息
         String request = ((TextWebSocketFrame)frame).text();
         LOGGER.info("服务端收到新信息：" + request);
         JSONObject param = null;
@@ -115,7 +115,7 @@ public class WebSocketServerHandler extends SimpleChannelInboundHandler<WebSocke
     }
    
     /**
-     * 异常处理：关闭channel
+     * 异常处理：关闭 channel
      */
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {

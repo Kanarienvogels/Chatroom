@@ -27,14 +27,14 @@ public class HttpRequestHandler extends SimpleChannelInboundHandler<Object> {
     /**
      * 描述：读取完连接的消息后，对消息进行处理。
      * 这里仅处理HTTP请求，WebSocket请求交给下一个处理器。
-     */
+    */
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, Object msg) throws Exception {
         if (msg instanceof FullHttpRequest) {
             handleHttpRequest(ctx, (FullHttpRequest) msg);
         } else if (msg instanceof WebSocketFrame) {
             ctx.fireChannelRead(((WebSocketFrame) msg).retain());
-        } 
+        }
     }
 
     /**

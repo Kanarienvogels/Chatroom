@@ -50,7 +50,7 @@ public class WebSocketServer implements Runnable{
 	public void build() {
 		try {
 		    long begin = System.currentTimeMillis();
-			serverBootstrap.group(bossGroup, workerGroup) //boss辅助客户端的tcp连接请求  worker负责与客户端之前的读写操作
+			serverBootstrap.group(bossGroup, workerGroup) //boss辅助客户端的tcp连接请求  worker负责与客户端之间的读写操作
 						   .channel(NioServerSocketChannel.class) //配置客户端的channel类型
 						   .option(ChannelOption.SO_BACKLOG, 1024) //配置TCP参数，握手字符串长度设置
 						   .option(ChannelOption.TCP_NODELAY, true) //TCP_NODELAY算法，尽可能发送大块数据，减少充斥的小块数据
